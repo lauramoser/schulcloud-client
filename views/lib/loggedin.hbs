@@ -26,21 +26,19 @@
         <script type="text/javascript" src="{{getAssetPath '/vendor-optimized/mathjax/MathJax.js?config=TeX-AMS_HTML'}}" nonce="{{nonceValue}}" defer></script>
         <script type="text/javascript" src="{{getAssetPath '/vendor/feathersjs/feathers.js'}}" nonce="{{nonceValue}}" defer></script>
         {{#if @root.currentUser.preferences.enterthecloud}}
-            <script type="text/javascript" src="{{getAssetPath '/vendor/enterthecloud.min.js'}}" nonce="{{nonceValue}}" defer></script>
+            <script type="text/javascript" src="{{getAssetPath '/vendor/enterthecloud.min.js'}}" nonce="{{@root.nonceValue}}" defer></script>
         {{/if}}
         {{#ifConfig "FEATURE_MATRIX_MESSENGER_ENABLED" true}}
             {{#inArray "messenger" @root.currentSchoolData.features}}
-                <script nonce="{{nonceValue}}">
-                    window.matrixAssetDomain = '{{getConfig "MATRIX_MESSENGER__EMBED_URI"}}';
-                    window.userLanguage = '{{ @root.userLanguage }}';
-                    window.matrixBlockRoomCreation = {{ @root.matrixBlockRoomCreation }};
-                </script>
-                <script src="{{getAssetPath '/scripts/chatLoggedin.js'}}" type="text/javascript" nonce="{{nonceValue}}" defer></script>
+                <script src="{{getAssetPath '/scripts/chatLoggedin.js'}}" type="text/javascript" nonce="{{@root.nonceValue}}" defer></script>
             {{/inArray}}
         {{/ifConfig}}
     {{/content}}
 
     {{#content "body"}}
+        <input type="hidden" id="matrixAssetDomain" value='{{getConfig "MATRIX_MESSENGER__EMBED_URI"}}'/>
+        <input type="hidden" id="matrixUserLanguage" value="{{ @root.userLanguage }}"/>
+        <input type="hidden" id="matrixBlockRoomCreation" value="{{ @root.matrixBlockRoomCreation }}"/>
 
         {{#if currentSchoolData.inMaintenance}}
         <input type="hidden" id="schuljahrtransfer" value="{{currentRole}}"/>
